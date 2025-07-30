@@ -1,6 +1,6 @@
 import uuid
 from django.db import models
-from manage_user.models import User
+from authentication.models import User
 
 
 class Project(models.Model):
@@ -18,7 +18,7 @@ class Project(models.Model):
     title = models.CharField(max_length=128)
     description = models.TextField(max_length=2048)
     author = models.ForeignKey(to=User, on_delete=models.CASCADE)
-    project_contributor = models.ManyToManyField(to=User, blank=True, related_name="contributed_projects")
+    contributors = models.ManyToManyField(to=User, blank=True, related_name="contributed_projects")
     project_type = models.CharField(max_length=30, choices=TYPE_CHOICES, verbose_name="Type du projet")
     time_created = models.DateTimeField(auto_now_add=True)
 
@@ -54,7 +54,7 @@ class Issue(models.Model):
     title = models.CharField(max_length=128)
     description = models.TextField(max_length=2048)
     author = models.ForeignKey(to=User, on_delete=models.CASCADE)
-    issue_contributor = models.ManyToManyField(to=User, blank=True, related_name="contributed_issues")
+    contributors = models.ManyToManyField(to=User, blank=True, related_name="contributed_issues")
     project = models.ForeignKey(to=Project, on_delete=models.CASCADE)
     time_created = models.DateTimeField(auto_now_add=True)
     project_status = models.CharField(max_length=30, choices=STATUs_CHOICES, default=TO_DO, verbose_name="Statut du projet")
