@@ -3,18 +3,17 @@ from rest_framework import permissions
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
-from rest_framework.exceptions import PermissionDenied
 
 from manage_project.models import Project, Issue, Comment
 from manage_project.serializers import ProjectSerializer, IssueSerializer, CommentSerializer
-from manage_project.permissions import IsAuthorOrContributor, IsProjectAuthorOrContributor
+from manage_project.permissions import IsAuthor, IsProjectAuthorOrContributor
 
 
 class ProjetViewSet(ModelViewSet):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
-    permission_classes = [permissions.IsAuthenticated, IsAuthorOrContributor]
-    
+    permission_classes = [permissions.IsAuthenticated, IsAuthor]
+
     def get_queryset(self):
         if self.request.user.is_superuser:
             return Project.objects.all()
@@ -25,15 +24,12 @@ class ProjetViewSet(ModelViewSet):
 
 class IssueViewSet(ModelViewSet):
     serializer_class = IssueSerializer
-    permission_classes = [permissions.IsAuthenticated, IsProjectAuthorOrContributor, IsAuthorOrContributor]
+    permission_classes = [permissions.IsAuthenticated, IsProjectAuthorOrContributor, IsAuthor]
 
     def get_queryset(self):
         project_pk = self.kwargs['project_pk']
-        project = get_object_or_404(Project, pk=project_pk)
-        if self.request.user in project.contributors.all() or self.request.user == project.author or self.request.user.is_superuser:
-            return Issue.objects.filter(project=project_pk)
-        raise PermissionDenied("Vous n'avez pas accès à cette fonctionnalité")
-    
+        return Issue.objects.filter(project=project_pk)
+
     def perform_create(self, serializer):
         project_pk = self.kwargs['project_pk']
         project = get_object_or_404(Project, pk=project_pk)
@@ -42,18 +38,15 @@ class IssueViewSet(ModelViewSet):
 
 class CommentViewSet(ModelViewSet):
     serializer_class = CommentSerializer
-    permission_classes = [permissions.IsAuthenticated, IsProjectAuthorOrContributor, IsAuthorOrContributor]
+    permission_classes = [permissions.IsAuthenticated, IsProjectAuthorOrContributor, IsAuthor]
 
     def get_queryset(self):
         issue_pk = self.kwargs['issue_pk']
         project_pk = self.kwargs['project_pk']
-        project = get_object_or_404(Project, pk=project_pk)
-        if self.request.user in project.contributors.all() or self.request.user == project.author or self.request.user.is_superuser:
-            return Comment.objects.filter(
+        return Comment.objects.filter(
                 issue=issue_pk,
                 issue__project=project_pk
             )
-        raise PermissionDenied("Vous n'avez pas accès à cette fonctionnalité")
 
     def perform_create(self, serializer):
         issue_pk = self.kwargs['issue_pk']

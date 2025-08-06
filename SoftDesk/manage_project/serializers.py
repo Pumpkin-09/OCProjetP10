@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from models import Project, Issue, Comment
+from manage_project.models import Project, Issue, Comment
 
 
 class ProjectSerializer(serializers.ModelSerializer):
@@ -25,7 +25,7 @@ class ProjectSerializer(serializers.ModelSerializer):
 class IssueSerializer(serializers.ModelSerializer):
     class Meta:
         model = Issue
-        fields = ["title", "description", "author", "contributors", "project", "time_created", "project_status", "project_tag", "project_priority"]
+        fields = ["title", "description", "author", "assigned_user", "project", "time_created", "project_status", "project_tag", "project_priority"]
         read_only_fields = ["author", "time_created"]
 
     def create(self, validated_data):
@@ -35,10 +35,10 @@ class IssueSerializer(serializers.ModelSerializer):
         return issue
 
     def update(self, instance, validated_data):
-        contributors_data = validated_data.pop("contributors", None)
+        assigned_user_data = validated_data.pop("assigned_user", None)
         instance = super().update(instance, validated_data)
-        if contributors_data is not None:
-            isinstance.contributors.set(contributors_data)
+        if assigned_user_data is not None:
+            isinstance.assigned_user.set(assigned_user_data)
         
         return instance
 

@@ -54,7 +54,7 @@ class Issue(models.Model):
     title = models.CharField(max_length=128)
     description = models.TextField(max_length=2048)
     author = models.ForeignKey(to=User, on_delete=models.CASCADE)
-    contributors = models.ManyToManyField(to=User, blank=True, related_name="contributed_issues")
+    assigned_user = models.ManyToManyField(to=User, blank=True, related_name="assigned_user")
     project = models.ForeignKey(to=Project, on_delete=models.CASCADE)
     time_created = models.DateTimeField(auto_now_add=True)
     project_status = models.CharField(max_length=30, choices=STATUs_CHOICES, default=TO_DO, verbose_name="Statut du projet")
