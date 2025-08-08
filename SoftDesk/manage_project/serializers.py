@@ -17,7 +17,7 @@ class ProjectSerializer(serializers.ModelSerializer):
         contributors_data = validated_data.pop("contributors", None)
         instance = super().update(instance, validated_data)
         if contributors_data is not None:
-            isinstance.contributors.set(contributors_data)
+            instance.contributors.set(contributors_data)
         
         return instance
 
@@ -38,7 +38,7 @@ class IssueSerializer(serializers.ModelSerializer):
         assigned_user_data = validated_data.pop("assigned_user", None)
         instance = super().update(instance, validated_data)
         if assigned_user_data is not None:
-            isinstance.assigned_user.set(assigned_user_data)
+            instance.assigned_user.set(assigned_user_data)
         
         return instance
 

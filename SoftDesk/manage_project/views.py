@@ -18,7 +18,7 @@ class ProjetViewSet(ModelViewSet):
         if self.request.user.is_superuser:
             return Project.objects.all()
         return Project.objects.filter(
-            Q(author=self.request.user) | Q(contributor=self.request.user)
+            Q(author=self.request.user) | Q(contributors=self.request.user)
         ).distinct()
 
 
