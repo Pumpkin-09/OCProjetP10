@@ -5,8 +5,8 @@ from manage_project.models import Project, Issue, Comment
 class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project
-        fields = ['title', 'description', 'author', 'contributors', 'project_type', 'time_created']
-        read_only_fields = ['time_created', 'author']
+        fields = ["id", "title", "description", "author", "contributors", "project_type", "time_created"]
+        read_only_fields = ["time_created", "author"]
 
     def create(self, validated_data):
         validated_data["author"] = self.context["request"].user
@@ -25,8 +25,8 @@ class ProjectSerializer(serializers.ModelSerializer):
 class IssueSerializer(serializers.ModelSerializer):
     class Meta:
         model = Issue
-        fields = ["title", "description", "author", "assigned_user", "project", "time_created", "project_status", "project_tag", "project_priority"]
-        read_only_fields = ["author", "time_created"]
+        fields = ["id", "title", "description", "author", "assigned_user", "project", "time_created", "project_status", "project_tag", "project_priority"]
+        read_only_fields = ["author", "project", "time_created"]
 
     def create(self, validated_data):
         validated_data["author"] = self.context["request"].user
@@ -47,7 +47,7 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = ["description", "author", "issue", "id", "time_created"]
-        read_only_fields = ["author", "id", "time_created"]
+        read_only_fields = ["author", "issue", "id", "time_created"]
 
     def create(self, validated_data):
         validated_data["author"] = self.context["request"].user
