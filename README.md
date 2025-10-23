@@ -74,7 +74,7 @@ Un utilisateur ne peut pas voir les autres utilisateurs.
 
 | Méthode | Endpoint | Description | Corps de la Requête (JSON) |
 |:---:|:---|:---|:---|
-| POST | /api/token/ | Obtenir JWT token | `{"username": "<requis>",\"password": "<requis>"}` |
+| POST | /api/token/ | Obtenir JWT token | `{"username": "<requis>",`<br>`"password": "<requis>"}` |
 | POST | /api/token/refresh/ | Rafraîchir le token | `{"refresh": "<token_refresh>"}` |
 
 **Exemple de réponse :**
