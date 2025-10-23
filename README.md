@@ -95,7 +95,7 @@ Un utilisateur ne peut pas voir les autres utilisateurs.
 
 | Méthode | Endpoint | Description | Corps de la Requête (JSON) |
 |:---:|:---|:---|:---|
-| POST | /api/user/ | Créer un utilisateur | `{"username": "<requis>", "email": "<requis>", "password": "<requis>", "date_of_birth": "YYYY-MM-DD", "can_be_contacted": de base false, "can_data_be_shared": de base false}` |
+| POST | /api/user/ | Créer un utilisateur | `{"username": "<requis>",`<br>`"email": "<requis>",`<br>`"password": "<requis>",`<br>`"date_of_birth": "YYYY-MM-DD",`<br>`"can_be_contacted": de base false,`<br>`"can_data_be_shared": de base false}` |
 | GET | /api/user/ | Liste des utilisateurs | N/A |
 | GET | /api/user/{id}/ | Détails d'un utilisateur | N/A |
 | PATCH | /api/user/{id}/ | Modifier un utilisateur | `{"email": "..."}` |
@@ -107,7 +107,7 @@ Un utilisateur ne peut pas voir les autres utilisateurs.
 
 | Méthode | Endpoint | Description | Corps de la Requête (JSON) |
 |:---:|:---|:---|:---|
-| POST | /api/projects/ | Créer un projet | `{"title": "<requis>", "description": "<requis>", "project_type": "BACK-END|FRONT-END|IOS|ANDROID"}` |
+| POST | /api/projects/ | Créer un projet | `{"title": "<requis>",`<br>`"description": "<requis>",`<br>`"project_type": "BACK-END/FRONT-END/IOS/ANDROID"}` |
 | GET | /api/projects/ | Liste des projets | N/A |
 | GET | /api/projects/{id}/ | Détails d'un projet | N/A |
 | PATCH | /api/projects/{id}/ | Modifier un projet | `{"title": "...", "description": "..."}` |
@@ -119,7 +119,7 @@ Un utilisateur ne peut pas voir les autres utilisateurs.
 
 | Méthode | Endpoint | Description | Corps de la Requête (JSON) |
 |:---:|:---|:---|:---|
-| POST | /api/projects/{project_id}/issues/ | Créer une issue | `{"title": "<requis>", "description": "<requis>", "assigned_user": <ID optionnel>, "project_status":<optionnel, TO DO de base> "TO DO|IN PROGRESS|FINISHED", "project_tag": "BUG|FEATURE|TASK", "project_priority": "LOW|MEDIUM|HIGH"}` |
+| POST | /api/projects/{project_id}/issues/ | Créer une issue | `{"title": "<requis>",`<br>`"description": "<requis>",`<br>`"assigned_user": <ID optionnel>,`<br>`"project_status":<optionnel, TO DO de base> "TO DO/IN PROGRESS/FINISHED",`<br>`"project_tag": "BUG/FEATURE/TASK",`<br>`"project_priority": "LOW/MEDIUM/HIGH"}` |
 | GET | /api/projects/{project_id}/issues/ | Liste des issues d'un projet | N/A |
 | GET | /api/projects/{project_id}/issues/{id}/ | Détails d'une issue | N/A |
 | PATCH | /api/projects/{project_id}/issues/{id}/ | Modifier une issue | `{"title": "...", "project_status": "IN PROGRESS"}` |
