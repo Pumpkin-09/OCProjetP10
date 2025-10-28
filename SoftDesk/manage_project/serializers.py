@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from manage_project.models import Project, Issue, Comment
+from django.shortcuts import get_object_or_404
 
 
 class ProjectSerializer(serializers.ModelSerializer):
@@ -27,6 +28,21 @@ class IssueSerializer(serializers.ModelSerializer):
         model = Issue
         fields = ["id", "title", "description", "author", "assigned_user", "project", "time_created", "project_status", "project_tag", "project_priority"]
         read_only_fields = ["author", "project", "time_created"]
+
+    def validate_assigned_user(self, value):
+        if self.instance:
+            project = self.instance.project
+        else:
+            project_pk = self.context['view'].kwargs.get('project_pk')
+            project = get_object_or_404(Project, pk=project_pk)
+        
+        for user in value:
+            if not (project.contributors.filter(id=user.id).exists() or project.author == user):
+                raise serializers.ValidationError(
+                    f"L'utilisateur '{user.username}' n'est pas membre du projet"
+                )
+        
+        return value
 
     def create(self, validated_data):
         validated_data["author"] = self.context["request"].user

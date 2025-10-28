@@ -15,16 +15,14 @@ class IsAuthor(permissions.BasePermission):
 
 class IsProjectAuthorOrContributor(permissions.BasePermission):
     
-    def has_permissions(self, request, view):
+    def has_permission(self, request, view):
         project_pk = view.kwargs['project_pk']
         if not project_pk:
             return False
         
         project = get_object_or_404(Project, pk=project_pk)
         is_project_author = (request.user == project.author)
-        is_project_contributor = (request.user in project.contributor.all())
+        is_project_contributor = (request.user in project.contributors.all())
         is_superuser = request.user.is_superuser
 
-        if request.method in ["create"]:
-            return is_project_author or is_project_contributor or is_superuser
-        return True
+        return is_project_author or is_project_contributor or is_superuser
